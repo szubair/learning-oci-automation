@@ -1,0 +1,20 @@
+
+
+data "oci_core_subnets" "test_subnets" {
+    compartment_id = var.compartment_id
+    vcn_id = "xxxxxxx"
+}
+
+locals {
+  subnets_ids = toset(data.oci_core_subnets.test_subnets.subnets[*].id)
+}
+
+output "test_results" {
+  value = data.oci_core_subnets.test_subnets.subnets[0].id
+}
+
+output "test_output" {
+  for_each = local.subnets_ids
+  value = each.value
+}
+
